@@ -3,8 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#e6e6fa">
+    <meta name="theme-color" content="#2E3A4D">
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="description" content="Nicole Mak — marketing, social media & illustration. A digital bedroom where campaigns, stories, and late-night ideas live. Step inside.">
+    <!-- Open Graph — how the link appears on LinkedIn & socials -->
+    <meta property="og:title" content="Nicole Mak | My Digital Bedroom">
+    <meta property="og:description" content="Crafting stories that spark people's minds — marketing, social media & illustration.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://cymn-lab.github.io/nicole-mak">
+    <meta name="twitter:card" content="summary_large_image">
     <style>
         /* Safe-area insets for iPhone notch / home bar */
         @supports (padding-bottom: env(safe-area-inset-bottom)) {
@@ -204,14 +211,61 @@
             background: #f0f0f0;
         }
 
-        /* ── Arched Window Scenery ── */
+        /* ── Arched Window Scenery — landscape, laptop ratio ── */
         .window-container {
-            border-radius: 130px 130px 10px 10px;
+            border-radius: 150px 150px 12px 12px;
             box-shadow: inset 0 0 0 3px rgba(200,190,170,0.30), inset 0 2px 8px rgba(0,0,0,0.08);
             border: 12px solid #eee8da !important; /* warm painted-wood */
-            /* No outline — outline paints outside border-box and bleeds past arch */
             background: #7dd3fc; /* fallback sky */
         }
+
+        /* ── Fabric drapes — cover the glass, part on scroll ── */
+        .win-drape {
+            position: absolute;
+            top: 0; bottom: 0;
+            width: 54%;
+            z-index: 45; /* above note z-32 & sheen z-35, below panes z-50 */
+            pointer-events: none;
+            transition: transform 1.9s cubic-bezier(0.22, 1, 0.36, 1);
+            background:
+                linear-gradient(to bottom, rgba(0,0,0,0.06), transparent 12%),
+                repeating-linear-gradient(90deg,
+                    #ecdcbe 0px,  #ecdcbe 22px,
+                    #e2cda4 22px, #e2cda4 30px,
+                    #e8d6b4 30px, #e8d6b4 44px);
+        }
+        .win-drape-l {
+            left: -2%;
+            transform-origin: left center;
+            border-right: 2px solid rgba(120,98,60,0.18);
+            box-shadow: inset -18px 0 24px -12px rgba(90,70,40,0.28);
+        }
+        .win-drape-r {
+            right: -2%;
+            transform-origin: right center;
+            border-left: 2px solid rgba(120,98,60,0.18);
+            box-shadow: inset 18px 0 24px -12px rgba(90,70,40,0.28);
+        }
+        /* Open — fabric gathers into a slim pleated strip at each edge */
+        #win-glass.curtains-open .win-drape-l { transform: scaleX(0.10); }
+        #win-glass.curtains-open .win-drape-r { transform: scaleX(0.10); }
+        /* Gentle idle sway once gathered */
+        #win-glass.curtains-open .win-drape { animation: drapeSway 7s ease-in-out infinite 2.2s; }
+        @keyframes drapeSway {
+            0%,100% { filter: brightness(1); }
+            50%     { filter: brightness(1.04); }
+        }
+        /* Dark mode drapes — deep indigo velvet */
+        body.lights-off .win-drape {
+            background:
+                linear-gradient(to bottom, rgba(0,0,0,0.14), transparent 12%),
+                repeating-linear-gradient(90deg,
+                    #2c2a4a 0px,  #2c2a4a 22px,
+                    #232140 22px, #232140 30px,
+                    #282546 30px, #282546 44px);
+        }
+        body.lights-off .win-drape-l { border-right-color: rgba(255,253,208,0.10); box-shadow: inset -18px 0 24px -12px rgba(0,0,0,0.45); }
+        body.lights-off .win-drape-r { border-left-color:  rgba(255,253,208,0.10); box-shadow: inset 18px 0 24px -12px rgba(0,0,0,0.45); }
         /* Glass light sheen — sits above all scenery (hills z-22, trees z-23, curtains z-25, gloomy z-28)
            and below window panes (z-50) — reads as glass surface light over the whole view */
         #win-glass::before {
@@ -235,11 +289,11 @@
         @media (max-width: 767px) {
             #win-glass::before { display: none !important; }
         }
-        /* Landscape within the window — no overflow */
-        .win-ground      { background: linear-gradient(to bottom, #6aaa50, #4a8835); }
-        .win-hill-back   { background: linear-gradient(to bottom, #88c060, #5a8a40); border-radius: 60% 60% 0 0; }
-        .win-hill-front  { background: linear-gradient(to bottom, #5a8035, #3a6025); border-radius: 55% 55% 0 0; }
-        .win-tree        { background: #2d5218; border-radius: 50% 50% 12% 12%; }
+        /* Landscape within the window — muted sage-lavender to match palette */
+        .win-ground      { background: linear-gradient(to bottom, #8fa08a, #6d7f68); }
+        .win-hill-back   { background: linear-gradient(to bottom, #a6ad9c, #808a78); border-radius: 60% 60% 0 0; }
+        .win-hill-front  { background: linear-gradient(to bottom, #7c8a72, #5c6a54); border-radius: 55% 55% 0 0; }
+        .win-tree        { background: #4a5a44; border-radius: 50% 50% 12% 12%; }
         /* Fluffy SVG-style cloud — layered ellipses via pseudo-elements */
         .win-cloud {
             position: absolute;
@@ -247,7 +301,7 @@
             transition: opacity 0.8s ease;
         }
         .window-pane { background-color: rgba(255,255,255,0.72); }
-        .window-pane-border { border-color: rgba(255,255,255,0.40); border-radius: 118px 118px 4px 4px; }
+        .window-pane-border { border-color: rgba(255,255,255,0.40); border-radius: 138px 138px 5px 5px; }
         .window-sill {
             background: linear-gradient(to bottom, #ede4d4, #ddd4c2);
             border: 1px solid rgba(180,168,148,0.35);
@@ -261,10 +315,10 @@
         }
         body.lights-off .scenery-stars  { opacity: 1; }
         body.lights-off .win-cloud      { opacity: 0.06 !important; }
-        body.lights-off .win-ground     { background: linear-gradient(to bottom,#152210,#0a1608); }
-        body.lights-off .win-hill-back  { background: linear-gradient(to bottom,#1c2e14,#10200c); }
-        body.lights-off .win-hill-front { background: linear-gradient(to bottom,#14220e,#0a1608); }
-        body.lights-off .win-tree       { background: #0a1006; }
+        body.lights-off .win-ground     { background: linear-gradient(to bottom,#2a2640,#1a1830); }
+        body.lights-off .win-hill-back  { background: linear-gradient(to bottom,#332e4e,#221e38); }
+        body.lights-off .win-hill-front { background: linear-gradient(to bottom,#282444,#181530); }
+        body.lights-off .win-tree       { background: #14122a; }
         body.lights-off .window-pane    { background-color: rgba(20,16,50,0.55); }
         body.lights-off .window-pane-border { border-color: rgba(20,16,50,0.35); }
         body.lights-off .window-sill    { background: linear-gradient(to bottom,#2a2848,#1e1c36); border-color:rgba(255,253,208,0.08); }
@@ -727,6 +781,24 @@
 
         html { scroll-behavior: smooth; }
 
+        /* ── Keyboard focus — visible, on-palette ── */
+        a:focus-visible,
+        button:focus-visible,
+        input:focus-visible,
+        textarea:focus-visible,
+        [tabindex]:focus-visible {
+            outline: 2px solid rgba(46,58,77,0.55);
+            outline-offset: 3px;
+            border-radius: 4px;
+        }
+        body.lights-off a:focus-visible,
+        body.lights-off button:focus-visible,
+        body.lights-off input:focus-visible,
+        body.lights-off textarea:focus-visible,
+        body.lights-off [tabindex]:focus-visible {
+            outline-color: rgba(212,188,106,0.70);
+        }
+
         /* ── Performance: will-change only where motion happens ── */
         .animate-blob       { will-change: transform; }
         .animate-float      { will-change: transform; }
@@ -844,6 +916,9 @@
             stroke-dashoffset: 0;
         }
         body.lights-off #about-underline-path { stroke: rgba(180, 160, 220, 0.4); }
+        /* Invitation line under the heading */
+        .about-invite { color: rgba(46,58,77,0.55); }
+        body.lights-off .about-invite { color: rgba(230,230,250,0.75); }
 
         /* ── About: magnetic tag base ── */
         .about-tag-magnetic {
@@ -1052,8 +1127,8 @@
 
             /* ── About window — mobile ── */
             #about-window {
-                width: 260px !important;
-                height: 340px !important;
+                width: min(92vw, 360px) !important;
+                height: 270px !important;
                 margin-bottom: 100px !important;
                 perspective: none !important;
             }
@@ -1066,7 +1141,7 @@
             }
             /* Glass: kill ALL sources of arch bleed */
             #win-glass {
-                border-radius: 110px 110px 6px 6px !important;
+                border-radius: 80px 80px 6px 6px !important;
                 border-width: 8px !important;
                 box-shadow: none !important;
                 -webkit-box-shadow: none !important;
@@ -1083,9 +1158,19 @@
             #win-sun  { box-shadow: none !important; filter: none !important; }
             #win-moon { box-shadow: none !important; filter: none !important; }
             /* Pane border arch scaled to match */
-            .window-pane-border { border-radius: 100px 100px 3px 3px !important; }
+            .window-pane-border { border-radius: 72px 72px 3px 3px !important; }
             /* Sill — no shadow bleed */
             .window-sill { height: 14px !important; box-shadow: none !important; }
+
+            /* Note on the glass — compact & scrollable inside the small window */
+            #win-note .win-note-pane { padding: 30px 18px 18px !important; gap: 0.5rem !important; max-width: none !important; }
+            #win-note .win-note-body { font-size: 11px !important; line-height: 1.5 !important; }
+            #win-note .win-note-pill { font-size: 8px !important; padding: 2px 8px !important; }
+            #win-note .win-note-close-hint { font-size: 9px !important; }
+            #win-note .win-note-hello { font-size: 13px !important; }
+            #win-note .win-note-corner { display: none !important; }
+            #win-note .win-note-signoff { font-size: 12px !important; }
+            #win-note .win-note-divider { margin: 2px 0 !important; }
 
             /* Hint — revealed on tap, positioned OUTSIDE the window's stacking context */
             #about-window { overflow: visible !important; }
@@ -1658,7 +1743,7 @@
                     <div class="flex items-center gap-3 mb-6" data-motion="fade-up" data-delay="100">
                         <span class="font-mono text-[10px] tracking-[0.28em] uppercase text-navy/50 hero-text-el">✦ step inside ✦</span>
                         <div class="flex-1 h-px bg-navy/15 max-w-[60px]"></div>
-                        <span class="font-mono text-[10px] tracking-[0.20em] text-navy/35 hero-text-el">02 : 47 AM</span>
+                        <span id="hero-clock" class="font-mono text-[10px] tracking-[0.20em] text-navy/35 hero-text-el">02 : 47 AM</span>
                     </div>
 
                     <!-- Main heading — "Welcome to" -->
@@ -1676,9 +1761,8 @@
                     <!-- Bio — personal, bedroom-note tone -->
                     <p class="font-sans hero-text-el mb-8" data-motion="fade-up" data-delay="340"
                        style="font-size: clamp(0.92rem, 1.25vw, 1.05rem); max-width: 400px; font-weight:400; color:rgba(46,58,77,0.68); line-height:1.75;">
-                        crafting stories that feel like home&nbsp;🌙 —
-                        pull up a chair, turn on the lamp,
-                        and let's stay a while.
+                        crafting stories that feel like home&nbsp;🌙
+                        pull up a chair — the lamp's already on.
                     </p>
 
                     <!-- CTA row -->
@@ -1893,11 +1977,31 @@
             <div class="glass-card p-8 md:p-12 lg:p-16 relative overflow-visible">
                 <div class="absolute -bottom-20 -left-20 w-64 h-64 bg-blush rounded-full opacity-40 blur-[60px] pointer-events-none"></div>
 
-                <div class="grid md:grid-cols-2 gap-10 lg:gap-16 items-start relative z-10">
+                <div class="relative z-10">
 
-                    <!-- Left: Arched Window — fully interactive -->
-                    <div class="flex justify-center md:justify-start" data-motion="fade-right" data-delay="100">
-                        <div id="about-window" class="relative w-[360px] h-[480px] flex-shrink-0 mx-auto md:mx-0" style="perspective:900px; margin-bottom:120px;">
+                    <!-- Centered heading — invitation to the window -->
+                    <div class="text-center mb-12" data-motion="fade-up" data-delay="100">
+                        <p class="font-mono text-xs uppercase tracking-widest text-navy/50 mb-4">✦ about me ✦</p>
+                        <h2 class="font-serif italic font-bold text-navy leading-[1.15] text-3xl lg:text-4xl mb-3">
+                            Weaving
+                            <span class="about-swap"><span class="about-swap-spacer-a">narratives</span><span class="about-swap-spacer-b">stories</span><span class="swap-a">narratives</span><span class="swap-b">stories</span></span>
+                            through
+                            <span class="about-swap"><span class="about-swap-spacer-a">strategy</span><span class="about-swap-spacer-b">feelings</span><span class="swap-a">strategy</span><span class="swap-b">feelings</span></span>
+                            &amp;
+                            <span class="about-swap"><span class="about-swap-spacer-a">art</span><span class="about-swap-spacer-b">magic ✨</span><span class="swap-a">art</span><span class="swap-b">magic ✨</span></span>
+                            🧶
+                        </h2>
+                        <div class="flex justify-center overflow-visible" aria-hidden="true">
+                            <svg class="about-underline w-64 h-4" viewBox="0 0 260 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path id="about-underline-path" d="M2 9 Q30 3 60 9 Q90 14 120 7 Q150 2 180 8 Q210 13 240 7 Q252 4 258 6" stroke="#E6E6FA" stroke-width="3" stroke-linecap="round" fill="none"/>
+                            </svg>
+                        </div>
+                        <p class="font-serif italic about-invite mt-4" style="font-size:15px;">the curtains part as you arrive — tap the glass anytime to peek outside 🪟</p>
+                    </div>
+
+                    <!-- Window — the whole story lives inside -->
+                    <div class="flex justify-center" data-motion="fade-up" data-delay="200">
+                        <div id="about-window" class="relative w-full max-w-[720px] h-[450px] flex-shrink-0" style="perspective:1100px; margin-bottom:120px;">
                             <div class="window-tilt-inner w-full h-full" style="transform-style:preserve-3d; transition:transform 0.12s ease-out;">
 
                                 <div id="win-glass" class="window-container absolute inset-0 overflow-hidden border-8 border-white backdrop-blur-sm transition-colors duration-1000 z-10 shadow-2xl cursor-crosshair">
@@ -1960,11 +2064,9 @@
                                         <div class="absolute top-7 right-4 w-4 h-4 bg-gray-300/30 rounded-full"></div>
                                     </div>
 
-                                    <!-- Curtains — flutter on hover -->
-                                    <div id="win-curtain-l" class="absolute top-0 left-0 w-10 h-full z-25 pointer-events-none transition-transform duration-500 origin-left"
-                                         style="background:linear-gradient(to right, rgba(232,210,180,0.75), transparent); border-radius:0 40% 40% 0/0 80px 80px 0;"></div>
-                                    <div id="win-curtain-r" class="absolute top-0 right-0 w-10 h-full z-25 pointer-events-none transition-transform duration-500 origin-right"
-                                         style="background:linear-gradient(to left, rgba(232,210,180,0.75), transparent); border-radius:40% 0 0 40%/80px 0 0 80px;"></div>
+                                    <!-- Fabric drapes — closed on arrival, part when the section scrolls in -->
+                                    <div class="win-drape win-drape-l" aria-hidden="true"></div>
+                                    <div class="win-drape win-drape-r" aria-hidden="true"></div>
 
 
                                     <!-- Gloomy overlay — activates when raining -->
@@ -1980,9 +2082,65 @@
                                     <!-- Ripple layer (click) -->
                                     <canvas id="win-ripple-canvas" class="absolute inset-0 w-full h-full z-30 pointer-events-none"></canvas>
 
-                                    <!-- Window panes — above all canvases (z-50) -->
-                                    <div class="absolute left-1/2 top-0 bottom-0 w-2 -translate-x-1/2 z-[50] pointer-events-none window-pane transition-colors duration-1000"></div>
-                                    <div class="absolute top-1/2 left-0 right-0 h-2 -translate-y-1/2 z-[50] pointer-events-none window-pane transition-colors duration-1000 mt-4"></div>
+                                    <!-- ── Note on the glass — tap to read ── -->
+                                    <div id="win-note" class="absolute inset-0 z-[32] pointer-events-none flex flex-col justify-center"
+                                         style="opacity:0; transform:scale(0.985); transition:opacity 0.5s ease, transform 0.5s cubic-bezier(0.22,1,0.36,1);"
+                                         aria-hidden="true">
+                                        <div class="win-note-pane h-full w-full flex flex-col justify-center gap-3.5 overflow-y-auto relative"
+                                             style="padding:44px 64px 32px; max-width:640px; margin:0 auto;">
+                                            <!-- Corner marks — like a pressed page -->
+                                            <span class="win-note-corner" style="top:16px;left:22px;">✦</span>
+                                            <span class="win-note-corner" style="top:16px;right:22px;">✦</span>
+                                            <span class="win-note-corner" style="bottom:14px;left:22px;font-size:9px;opacity:0.5;">✦</span>
+                                            <span class="win-note-corner" style="bottom:14px;right:22px;font-size:9px;opacity:0.5;">✦</span>
+
+                                            <div class="text-center">
+                                                <p class="font-mono uppercase win-note-eyebrow" style="font-size:8px; letter-spacing:0.24em;">✦ a note on the glass ✦</p>
+                                                <p class="font-serif italic win-note-hello" style="font-size:17px;margin-top:6px;">hi, I'm Nicole — glad you looked in.</p>
+                                            </div>
+
+                                            <div class="space-y-3 win-note-body" style="font-size:14.5px; line-height:1.75;">
+                                                <p>I turn digital spaces into <span class="about-shimmer">cozy</span>, engaging experiences — campaigns that feel <span class="about-shimmer">personal</span>, exhibits worth lingering in, and stories told with equal parts strategy and Procreate.</p>
+                                                <p>When I'm not <span class="about-shimmer">sketching</span>, I'm deep in digital &amp; CRM marketing — chasing the sweet spot where audience engagement meets a story a brand actually means.</p>
+                                            </div>
+
+                                            <!-- Ornamental divider -->
+                                            <div class="win-note-divider" aria-hidden="true">
+                                                <span></span><span class="win-note-divider-mark">✿</span><span></span>
+                                            </div>
+
+                                            <div class="win-note-tags space-y-2">
+                                                <div class="flex flex-wrap items-center gap-1.5">
+                                                    <span class="win-note-tag-label font-mono uppercase" style="font-size:7px; letter-spacing:0.18em; width:100%;">Background</span>
+                                                    <span class="win-note-pill win-note-pill--solid">Digital Marketing Graduate</span>
+                                                </div>
+                                                <div class="flex flex-wrap items-center gap-1.5">
+                                                    <span class="win-note-tag-label font-mono uppercase" style="font-size:7px; letter-spacing:0.18em; width:100%;">Toolkit</span>
+                                                    <span class="win-note-pill">Adobe Suite</span>
+                                                    <span class="win-note-pill">Procreate</span>
+                                                    <span class="win-note-pill">CRM Strategy</span>
+                                                    <span class="win-note-pill">Copywriting</span>
+                                                    <span class="win-note-pill">Social Media</span>
+                                                </div>
+                                                <div class="flex flex-wrap items-center gap-1.5">
+                                                    <span class="win-note-tag-label font-mono uppercase" style="font-size:7px; letter-spacing:0.18em; width:100%;">Languages</span>
+                                                    <span class="win-note-pill win-note-pill--dashed">English</span>
+                                                    <span class="win-note-pill win-note-pill--dashed">Cantonese</span>
+                                                    <span class="win-note-pill win-note-pill--dashed">Mandarin</span>
+                                                </div>
+                                            </div>
+
+                                            <!-- Handwritten sign-off -->
+                                            <p class="win-note-signoff font-serif italic text-right" style="font-size:15px;">— Nicole ✦</p>
+
+                                            <p class="font-serif italic win-note-close-hint text-center" style="font-size:10px; margin-top:2px;">tap again to look outside 🌙</p>
+                                        </div>
+                                    </div>
+
+                                    <!-- Window panes — two mullions for the wide frame (z-50) -->
+                                    <div class="absolute top-0 bottom-0 w-2 z-[50] pointer-events-none window-pane transition-colors duration-1000" style="left:33.33%;"></div>
+                                    <div class="absolute top-0 bottom-0 w-2 z-[50] pointer-events-none window-pane transition-colors duration-1000" style="left:66.66%;"></div>
+                                    <div class="absolute top-1/2 left-0 right-0 h-2 -translate-y-1/2 z-[50] pointer-events-none window-pane transition-colors duration-1000 mt-6"></div>
                                     <div class="absolute inset-2 border-2 z-[50] pointer-events-none window-pane-border transition-colors duration-1000"></div>
 
                                     <!-- Hint moved outside the glass frame below -->
@@ -1998,7 +2156,7 @@
                             <div id="win-hint-tag" class="absolute left-0 right-0 flex justify-center pointer-events-none"
                                  style="bottom:-44px; z-index:60; opacity:0; transition:opacity 0.35s ease, transform 0.35s ease; transform:translateY(4px);">
                                 <div class="journey-tag-card flex items-center gap-2" style="background:rgba(46,58,77,0.88); border-radius:40px; padding:7px 16px; white-space:nowrap;">
-                                    <span class="journey-tag-value" style="color:rgba(255,253,208,0.80); font-size:10px; font-weight:400; letter-spacing:0.04em;">👆 ripple &nbsp;·&nbsp; 👆👆 🌧 / ☀️</span>
+                                    <span class="journey-tag-value" style="color:rgba(255,253,208,0.80); font-size:10px; font-weight:400; letter-spacing:0.04em;">👆 my note &nbsp;·&nbsp; 👆👆 🌧 / ☀️</span>
                                 </div>
                             </div>
 
@@ -2088,69 +2246,61 @@
                                 body.lights-off .win-slider::-webkit-slider-thumb {
                                     background:#FFFDD0; border-color:#2E3A4D;
                                 }
+
+                                /* ── Note on the glass ── */
+                                #win-note.note-open { opacity:1 !important; transform:scale(1) !important; }
+                                /* While reading, the cross panes step back so text breathes */
+                                #win-note.note-open ~ .window-pane,
+                                #win-note.note-open ~ .window-pane-border {
+                                    opacity: 0.22;
+                                    transition: opacity 0.5s ease;
+                                }
+                                .window-pane, .window-pane-border { transition: opacity 0.5s ease, background-color 1s, border-color 1s; }
+                                .win-note-pane {
+                                    background: rgba(250,248,242,0.90);
+                                    backdrop-filter: blur(10px);
+                                    -webkit-backdrop-filter: blur(10px);
+                                }
+                                .win-note-eyebrow    { color: rgba(46,58,77,0.42); }
+                                .win-note-hello      { color: rgba(46,58,77,0.85); }
+                                .win-note-corner     { position:absolute; font-family:'Courier Prime',monospace; font-size:11px; color:rgba(46,58,77,0.30); pointer-events:none; }
+                                .win-note-divider    { display:flex; align-items:center; gap:10px; opacity:0.6; }
+                                .win-note-divider span:not(.win-note-divider-mark) { flex:1; height:1px; background:rgba(46,58,77,0.20); }
+                                .win-note-divider-mark { font-size:11px; color:rgba(46,58,77,0.45); }
+                                .win-note-signoff    { color:rgba(46,58,77,0.60); }
+                                .win-note-body       { color: rgba(46,58,77,0.80); font-family: 'Space Grotesk', sans-serif; }
+                                .win-note-tag-label  { color: rgba(46,58,77,0.38); }
+                                .win-note-close-hint { color: rgba(46,58,77,0.35); }
+                                .win-note-pill {
+                                    font-family: 'Courier Prime', monospace;
+                                    font-size: 9px;
+                                    text-transform: uppercase;
+                                    letter-spacing: 0.08em;
+                                    padding: 3px 10px;
+                                    border-radius: 999px;
+                                    border: 1px solid rgba(46,58,77,0.30);
+                                    color: rgba(46,58,77,0.80);
+                                }
+                                .win-note-pill--solid  { background:#2E3A4D; color:#FFFDD0; border-color:#2E3A4D; }
+                                .win-note-pill--dashed { border-style:dashed; border-radius:6px; }
+                                /* Dark mode note */
+                                body.lights-off .win-note-pane   { background: rgba(30,28,48,0.90); }
+                                body.lights-off .win-note-eyebrow    { color: rgba(255,253,208,0.42); }
+                                body.lights-off .win-note-hello      { color: rgba(255,253,208,0.88); }
+                                body.lights-off .win-note-corner     { color: rgba(255,253,208,0.28); }
+                                body.lights-off .win-note-divider span:not(.win-note-divider-mark) { background: rgba(255,253,208,0.18); }
+                                body.lights-off .win-note-divider-mark { color: rgba(212,188,106,0.60); }
+                                body.lights-off .win-note-signoff    { color: rgba(212,188,106,0.70); }
+                                body.lights-off .win-note-body       { color: rgba(255,253,208,0.82); }
+                                body.lights-off .win-note-tag-label  { color: rgba(255,253,208,0.38); }
+                                body.lights-off .win-note-close-hint { color: rgba(255,253,208,0.35); }
+                                body.lights-off .win-note-tags       { border-top-color: rgba(255,253,208,0.14) !important; }
+                                body.lights-off .win-note-pill       { border-color: rgba(255,253,208,0.30); color: rgba(255,253,208,0.78); }
+                                body.lights-off .win-note-pill--solid{ background:#FFFDD0; color:#2E3A4D; border-color:#FFFDD0; }
                             </style>
                         </div>
                     </div>
 
-                    <!-- Right: Bio content -->
-                    <div class="relative z-10 pt-2 md:pt-0" data-motion="fade-left" data-delay="200">
-
-                        <!-- Heading with hover-swap words -->
-                        <h2 class="font-serif italic font-bold text-navy leading-[1.15] text-3xl lg:text-4xl mb-3">
-                            Weaving
-                            <span class="about-swap"><span class="about-swap-spacer-a">narratives</span><span class="about-swap-spacer-b">stories</span><span class="swap-a">narratives</span><span class="swap-b">stories</span></span><br/>
-                            through
-                            <span class="about-swap"><span class="about-swap-spacer-a">strategy</span><span class="about-swap-spacer-b">feelings</span><span class="swap-a">strategy</span><span class="swap-b">feelings</span></span>
-                            &amp;
-                            <span class="about-swap"><span class="about-swap-spacer-a">art</span><span class="about-swap-spacer-b">magic ✨</span><span class="swap-a">art</span><span class="swap-b">magic ✨</span></span>
-                            🧶
-                        </h2>
-
-                        <!-- SVG scribble underline — draws in on reveal -->
-                        <div class="mb-5 overflow-visible" aria-hidden="true">
-                            <svg class="about-underline w-64 h-4" viewBox="0 0 260 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path id="about-underline-path" d="M2 9 Q30 3 60 9 Q90 14 120 7 Q150 2 180 8 Q210 13 240 7 Q252 4 258 6" stroke="#E6E6FA" stroke-width="3" stroke-linecap="round" fill="none"/>
-                            </svg>
-                        </div>
-
-                        <!-- Body copy with shimmer words -->
-                        <div class="space-y-3 text-[15px] leading-[1.75] text-navy/75 font-sans mb-8">
-                            <p>I specialize in turning digital spaces into <span class="about-shimmer">cozy</span>, engaging experiences. From curating exhibits to crafting campaigns that actually feel <span class="about-shimmer">personal</span>, I use tools like Procreate and the Adobe Suite to bring ideas to life.</p>
-                            <p>When I'm not <span class="about-shimmer">sketching</span>, I'm deep diving into digital &amp; CRM marketing — finding the sweet spots where audience engagement meets a genuine brand story.</p>
-                        </div>
-
-                        <!-- Tags with staggered entrance + magnetic hover -->
-                        <div class="border-t border-navy/10 pt-6 about-tags">
-
-                            <div class="about-tag-row">
-                                <span class="about-tag-label">Background</span>
-                                <div class="about-tag-pills">
-                                    <span class="tag-education about-tag-magnetic px-4 py-1.5 rounded-full font-mono text-[11px] uppercase tracking-wider bg-navy text-butter transition-colors">Digital Marketing Graduate</span>
-                                </div>
-                            </div>
-
-                            <div class="about-tag-row">
-                                <span class="about-tag-label">Toolkit</span>
-                                <div class="about-tag-pills">
-                                    <span class="tag-skill about-tag-magnetic px-4 py-1.5 rounded-full border border-navy/35 font-mono text-[11px] uppercase tracking-wider text-navy transition-colors hover:border-navy hover:bg-navy/5">Adobe Suite</span>
-                                    <span class="tag-skill about-tag-magnetic px-4 py-1.5 rounded-full border border-navy/35 font-mono text-[11px] uppercase tracking-wider text-navy transition-colors hover:border-navy hover:bg-navy/5">Procreate</span>
-                                    <span class="tag-skill about-tag-magnetic px-4 py-1.5 rounded-full border border-navy/35 font-mono text-[11px] uppercase tracking-wider text-navy transition-colors hover:border-navy hover:bg-navy/5">CRM Strategy</span>
-                                    <span class="tag-skill about-tag-magnetic px-4 py-1.5 rounded-full border border-navy/35 font-mono text-[11px] uppercase tracking-wider text-navy transition-colors hover:border-navy hover:bg-navy/5">Copywriting</span>
-                                    <span class="tag-skill about-tag-magnetic px-4 py-1.5 rounded-full border border-navy/35 font-mono text-[11px] uppercase tracking-wider text-navy transition-colors hover:border-navy hover:bg-navy/5">Social Media</span>
-                                </div>
-                            </div>
-
-                            <div class="about-tag-row">
-                                <span class="about-tag-label">Languages</span>
-                                <div class="about-tag-pills">
-                                    <span class="tag-language about-tag-magnetic px-4 py-1.5 rounded-md border-2 border-dashed border-navy/25 font-mono text-[11px] uppercase tracking-wider text-navy bg-white/40 backdrop-blur-sm transition-colors">English</span>
-                                    <span class="tag-language about-tag-magnetic px-4 py-1.5 rounded-md border-2 border-dashed border-navy/25 font-mono text-[11px] uppercase tracking-wider text-navy bg-white/40 backdrop-blur-sm transition-colors">Cantonese</span>
-                                    <span class="tag-language about-tag-magnetic px-4 py-1.5 rounded-md border-2 border-dashed border-navy/25 font-mono text-[11px] uppercase tracking-wider text-navy bg-white/40 backdrop-blur-sm transition-colors">Mandarin</span>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
                 </div>
             </div>
         </section>
@@ -2173,7 +2323,7 @@
                             </div>
                             <div class="polaroid-back">
                                 <h3 class="font-bold text-xl mb-3 text-navy">@fibu.draw</h3>
-                                <p class="text-sm mb-6 text-navy/80 font-serif italic">Personal illustration brand focused on healing and happiness in daily life.</p>
+                                <p class="text-sm mb-6 text-navy/80 font-serif italic">My illustration brand — small drawings about healing, and the happiness hiding in ordinary days.</p>
                                 <button class="view-details-btn bg-navy text-butter px-6 py-2 rounded-full text-xs font-mono uppercase tracking-widest hover:opacity-80 transition-opacity"
                                     data-title="@fibu.draw"
                                     data-image="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200&auto=format&fit=crop"
@@ -2199,7 +2349,7 @@
                             </div>
                             <div class="polaroid-back">
                                 <h3 class="font-bold text-xl mb-3 text-navy">City Gallery Campaign</h3>
-                                <p class="text-sm mb-6 text-navy/80 font-serif italic">Promotional campaign for City Gallery's 25th Anniversary of HKSAR celebration.</p>
+                                <p class="text-sm mb-6 text-navy/80 font-serif italic">Celebrating 25 years of the HKSAR — a promotional campaign for Hong Kong's City Gallery.</p>
                                 <button class="view-details-btn bg-navy text-butter px-6 py-2 rounded-full text-xs font-mono uppercase tracking-widest hover:opacity-80 transition-opacity"
                                     data-title="City Gallery Campaign"
                                     data-image="https://raw.githubusercontent.com/cymn-lab/photo-lab/main/Portfolio%20website%20cover%20pic/Portfolio%20website%20cover%20pic_City%20Gallery.jpg"
@@ -2352,7 +2502,7 @@
                             </div>
                             <div class="polaroid-back">
                                 <h3 class="font-bold text-xl mb-3 text-navy">BowCoffee Labor Day Post</h3>
-                                <p class="text-sm mb-6 text-navy/80 font-serif italic">Exclusive Labor Day social media post promoting ice drip coffee.</p>
+                                <p class="text-sm mb-6 text-navy/80 font-serif italic">A Labor Day social post for BowCoffee — ice drip, slow brewed, well earned.</p>
                                 <button class="view-details-btn bg-navy text-butter px-6 py-2 rounded-full text-xs font-mono uppercase tracking-widest hover:opacity-80 transition-opacity"
                                     data-title="BowCoffee Labor Day Post"
                                     data-image="https://raw.githubusercontent.com/cymn-lab/photo-lab/main/Archive/BowCoffee%20Post%20design.png"
@@ -2877,7 +3027,7 @@
                 <span class="text-navy/20">·</span>
                 <a href="https://www.instagram.com/fibu.draw?igsh=czBnbjQ4dW1ldWZk&utm_source=qr" target="_blank" rel="noopener" class="font-mono text-[10px] uppercase tracking-widest text-navy/40 hover:text-navy transition-colors">@fibu.draw ↗</a>
             </div>
-            <p class="font-mono text-[10px] text-navy/25">Crafted with love &amp; late-night tea ✦ 2024</p>
+            <p class="font-mono text-[10px] text-navy/25">crafted with love &amp; late-night tea ✦ 2026</p>
         </div>
     </footer>
 
@@ -3187,6 +3337,22 @@
         });
 
         // ── Close Book Button ─────────────────────────────────────────
+        // ── Hero clock — live, ticking quietly ──
+        (function () {
+            const clock = document.getElementById('hero-clock');
+            if (!clock) return;
+            function tick() {
+                const now = new Date();
+                let h = now.getHours();
+                const m = String(now.getMinutes()).padStart(2, '0');
+                const ampm = h >= 12 ? 'PM' : 'AM';
+                h = h % 12 || 12;
+                clock.textContent = String(h).padStart(2, '0') + ' : ' + m + ' ' + ampm;
+            }
+            tick();
+            setInterval(tick, 30000); // update every 30s — no need for per-second churn
+        })();
+
         // ── Flipping Book — hover opens, click/touch locks open, close restores hover ──
         const bookContainer = document.getElementById('flipping-book');
         const bookInner     = document.querySelector('.flipping-book-inner');
@@ -3366,23 +3532,47 @@
                 tRafId = done ? (inner.style.transform=`rotateX(${tx}deg) rotateY(${ty}deg)`, null) : requestAnimationFrame(tiltLoop);
             }
 
-            // ── 2. CURTAIN FLUTTER on hover (desktop only) ──
-            const curtL    = document.getElementById('win-curtain-l');
-            const curtR    = document.getElementById('win-curtain-r');
+            // ── 2. DRAPES — part when the section enters view, close when it leaves ──
+            const winNoteEl = document.getElementById('win-note');
+            let noteRevealTimer = null;
+            if ('IntersectionObserver' in window) {
+                const drapeObserver = new IntersectionObserver((entries) => {
+                    entries.forEach((entry) => {
+                        if (entry.isIntersecting) {
+                            // Entering — draw the curtains, then reveal the note
+                            glass.classList.add('curtains-open');
+                            clearTimeout(noteRevealTimer);
+                            noteRevealTimer = setTimeout(() => {
+                                if (winNoteEl) {
+                                    winNoteEl.classList.add('note-open');
+                                    winNoteEl.setAttribute('aria-hidden', 'false');
+                                }
+                            }, 1200);
+                        } else {
+                            // Leaving (scroll up or down) — close note first, then the curtains
+                            clearTimeout(noteRevealTimer);
+                            if (winNoteEl) {
+                                winNoteEl.classList.remove('note-open');
+                                winNoteEl.setAttribute('aria-hidden', 'true');
+                            }
+                            glass.classList.remove('curtains-open');
+                        }
+                    });
+                }, { threshold: 0.45 });
+                drapeObserver.observe(win);
+            } else {
+                glass.classList.add('curtains-open');
+                if (winNoteEl) winNoteEl.classList.add('note-open');
+            }
 
             // ── 3. HINT — hover on desktop, click-to-show on mobile ──
             const hintTag  = document.getElementById('win-hint-tag');
             const isMobileDevice = window.matchMedia('(max-width: 767px)').matches;
             if (!isMobileDevice) {
-                // Desktop: show/hide on hover
                 glass.addEventListener('mouseenter', () => {
-                    if (curtL) curtL.style.transform = 'skewY(-4deg) translateX(-3px)';
-                    if (curtR) curtR.style.transform = 'skewY(4deg) translateX(3px)';
                     if (hintTag) { hintTag.style.opacity = '1'; hintTag.style.transform = 'translateY(0)'; }
                 });
                 glass.addEventListener('mouseleave', () => {
-                    if (curtL) curtL.style.transform = '';
-                    if (curtR) curtR.style.transform = '';
                     if (hintTag) { hintTag.style.opacity = '0'; hintTag.style.transform = 'translateY(4px)'; }
                 });
             } else {
@@ -3426,21 +3616,21 @@
             const trees     = win.querySelectorAll('.win-tree');
 
             const SKY_COLORS = {
-                // hour → [skyGrad top, skyGrad bottom, hillBack, hillFront]
-                0:  ['#0a0820','#0d0c28', '#1a1636','#12102a'],
-                4:  ['#0a0820','#0d0c28', '#1a1636','#12102a'],
-                5:  ['#2d1b4e','#6b3fa0', '#3a2060','#2a1848'],
-                6:  ['#ff7043','#ffb74d', '#4a7c59','#2d5a3d'],
-                7:  ['#64b5f6','#e1f5fe', '#5a8a4a','#3a6a30'],
-                8:  ['#42a5f5','#e3f2fd', '#5a8a4a','#3a6a30'],
-                10: ['#2196f3','#e3f2fd', '#5a8a4a','#3a6a30'],
-                12: ['#1e88e5','#e3f2fd', '#5a8a4a','#3a6a30'],
-                16: ['#42a5f5','#e3f2fd', '#5a8a4a','#3a6a30'],
-                17: ['#ef6c00','#ffcc02', '#4a5a30','#2a3a20'],
-                18: ['#bf360c','#ff8f00', '#3a4a28','#22321a'],
-                19: ['#4a148c','#7b1fa2', '#2a2040','#1a1430'],
-                20: ['#1a1230','#0d0c28', '#1a1636','#12102a'],
-                23: ['#0a0820','#0d0c28', '#1a1636','#12102a'],
+                // hour → [skyGrad top, skyGrad bottom, hillBack, hillFront] — palette-aligned
+                0:  ['#1a1636','#2a2648', '#2a2640','#1a1830'],
+                4:  ['#1a1636','#2a2648', '#2a2640','#1a1830'],
+                5:  ['#3a3260','#8878a8', '#403860','#2e2848'],
+                6:  ['#c8a0a8','#e6c8b0', '#6d7f68','#5c6a54'],
+                7:  ['#a8b8d8','#e6e6fa', '#8fa08a','#6d7f68'],
+                8:  ['#9aacd6','#e6e6fa', '#8fa08a','#6d7f68'],
+                10: ['#8da0d0','#e6e6fa', '#8fa08a','#6d7f68'],
+                12: ['#88a0cc','#eaeafa', '#8fa08a','#6d7f68'],
+                16: ['#9aacd6','#e6e6fa', '#8fa08a','#6d7f68'],
+                17: ['#c8a8b0','#f0d8b8', '#7c8a72','#5c6a54'],
+                18: ['#a888a0','#e6c0a0', '#5c6a54','#44503e'],
+                19: ['#5a4878','#8878a8', '#403860','#2e2848'],
+                20: ['#2e2848','#3a3260', '#2a2640','#1a1830'],
+                23: ['#1a1636','#2a2648', '#2a2640','#1a1830'],
             };
             function lerpColor(a, b, t) {
                 const ah = parseInt(a.slice(1),16), bh = parseInt(b.slice(1),16);
@@ -3557,11 +3747,21 @@
                 if (raining) rainRaf = requestAnimationFrame(rainLoop);
                 else { rainCtx.clearRect(0,0,rainCanvas.width,rainCanvas.height); rainCanvas.style.opacity='0'; }
             }
+            // Note toggle — delayed so a double-click (rain) never flashes the note
+            const winNote = document.getElementById('win-note');
+            let noteTimer = null;
             glass.addEventListener('click', (e) => {
-                // Single click = ripple only
                 spawnRipple(e);
+                clearTimeout(noteTimer);
+                noteTimer = setTimeout(() => {
+                    if (winNote) {
+                        const open = winNote.classList.toggle('note-open');
+                        winNote.setAttribute('aria-hidden', open ? 'false' : 'true');
+                    }
+                }, 280);
             });
             glass.addEventListener('dblclick', (e) => {
+                clearTimeout(noteTimer); // rain gesture — leave the note as it is
                 // Double click = toggle rain
                 e.preventDefault();
                 raining = !raining;
@@ -4222,7 +4422,7 @@
         /* Heading */
         React.createElement('div',{style:{textAlign:"center",marginBottom:44}},
           React.createElement('h2',{className:"bs-head",style:{fontFamily:"'Space Grotesk',sans-serif",fontWeight:700,fontSize:"clamp(2rem,4vw,2.75rem)",color:"#2E3A4D",marginBottom:8}},"Late-Night Ideas"),
-          React.createElement('p',{className:"bs-sub",style:{fontFamily:"'Lora',Georgia,serif",fontStyle:"italic",fontSize:"1.08rem",color:"rgba(46,58,77,0.76)"}},"A curated moodboard of scattered thoughts and creative experiments.")
+          React.createElement('p',{className:"bs-sub",style:{fontFamily:"'Lora',Georgia,serif",fontStyle:"italic",fontSize:"1.08rem",color:"rgba(46,58,77,0.76)"}},"Scattered thoughts, carefully pinned — campaigns, illustrations, and creative experiments.")
         ),
 
         /* Marquee */
